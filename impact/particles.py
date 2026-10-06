@@ -38,17 +38,31 @@ def identify_species(mass_eV, charge_sign):
 
 def impact_particle_ids(pdata, name="particles"):
     """
-    Particle ids from parsed Impact-T particle data (the 9th column of
-    fort.40, fort.50 and write_beam files).
+    Particle ids from parsed Impact-T particle data.
 
     Impact-T keeps a particle's id through the run, also when particles move
     between MPI ranks, while the rows of each output file come out rank by rank.
     The ids, not the row order, identify a particle across outputs.
 
-    Returns an integer array, or None if the data has no usable ids (no id
-    column, non-positive values, or repeated ids). Repeated ids are reported
-    with a warning: Impact-T assigns them when the number of particles read
-    from partcl.data is not a multiple of the number of processors.
+    Parameters
+    ----------
+    pdata : numpy structured array
+        Particle data from `parse_impact_particles` (fort.40, fort.50 and
+        write_beam files), with the ids in the 'id' field (column 9).
+    name : str, optional
+        Name of the particle output, used in the warning, by default 'particles'
+
+    Returns
+    -------
+    numpy.ndarray or None
+        Integer ids, or None if the data has no usable ids (no id column,
+        non-positive values, or repeated ids).
+
+    Notes
+    -----
+    Repeated ids are reported with a warning: Impact-T assigns them when the
+    number of particles read from partcl.data is not a multiple of the number
+    of processors.
     """
     names = pdata.dtype.names or ()
     if "id" not in names:

@@ -351,6 +351,8 @@ class Impact(CommandWrapper):
             particle's 'x', 'y', 'z', 'px', 'py', 'pz' and 't' at each of them,
             as arrays. None if no output contains the particle.
 
+        Notes
+        -----
         The particle ids come from Impact-T (see `load_particles`); outputs
         without an id column cannot be followed this way.
         """
